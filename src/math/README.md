@@ -125,3 +125,26 @@ $$
 
 ### `self.add_absolute(a: isize)`
 関数$|x - a|$を加える。$O(|l| + |r|)$。
+
+
+
+# important functions
+重要な関数であるが、分類が難しいものをここにまとめた。
+
+### `fn gcd(a: usize, b: usize) -> usize`
+$a, b$の最大公約数を返す。$O(\log (a + b))$。
+
+### `fn lcm(a: usize, b: usize) -> usize`
+$a, b$の最小公倍数を返す。$O(\log (a + b))$。
+
+### `fn is_coprime(a: usize, b: usize) -> bool`
+$a, b$が互いに素であるかどうかを返す。$O(\log (a + b))$。
+
+### `fn ex_euclid(a: usize, b: usize) -> (isize, isize)`
+$ax + by = gcd(a, b)$なる$(x, y)$を返す。$O(\log (a + b))$。
+
+### `fn chinese_remainder_theorem(a0, m0, a1, m1) -> usize`
+$x \equiv a_0 \mod m_0, x\equiv a_1 \mod m_1$なる$x$のうち、自然数でかつ最も小さいものを返す。$O(\log (m_0 + m_1))$。
+
+### `fn is_square(x: usize) -> bool`
+$x$が平方数であるかを返す。$O(\log x)$。
