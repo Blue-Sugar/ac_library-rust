@@ -42,3 +42,23 @@ $x \in \Z/p\Z$に対して、$x^n \in \Z/p\Z$を返す。$O(\log n)$。
 ### `+, -, *, /, +=, -=, *=, /=`
 $\Z/p\Z$上の演算を定義する。
 `+, -, *, +=, -=, *=`は$O(1)$。`/, /=`は$O(\log (p + x))$。
+
+
+
+# Pascalの三角形
+Pascalの三角形を用いて空間計算量を払うことで、高速にcombinationの値を計算する。集合$S$としては、$\N$や`FiniteField`を想定する。このとき、$S$に対して`trait Number`を定義しなくてはならない。
+
+### `self.size: usize`
+計算できるcombinationの値の最大値。
+
+### `self.v: Vec<Vec<S>>`
+集合$S$上のcombinationの値を管理する配列。
+
+### `PascalTriangle::build(size: usize) -> PascalTriangle`
+大きさが`size`のPascalの三角形を構築する。計算量$O(size^2)$。
+
+### `self.combination(n: usize, r: usize) -> S`
+$_nC_r$を計算する。$O(1)$。
+
+### `self.duplicated_combination(n: usize, r: usize) -> S`
+$_nH_r = _{n + r - 1}C_r$を計算する。$O(1)$。
