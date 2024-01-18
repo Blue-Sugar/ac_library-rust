@@ -1,1 +1,109 @@
 mod segment_tree;
+
+
+#[allow(unused)]
+struct Tree {
+    root: usize,
+    n: usize,
+    e: Vec<(usize, usize)>,
+    pub adjoint_list: Vec<Vec<usize>>,
+    parent: Vec<isize>,
+    pub children: Vec<Vec<usize>>,
+}
+
+#[allow(unused)]
+impl Tree {
+    pub fn build(root: usize, n: usize, e: Vec<(usize, usize)>) -> Self {
+        let mut adjoint_list = vec![vec![]; n];
+        for &(u, v) in &e {
+            adjoint_list[u].push(v);
+            adjoint_list[v].push(u);
+        }
+
+        let mut parent = vec![n as isize; n];
+        let mut q = std::collections::VecDeque::new();
+        q.push_back(root);
+        parent[root] = -1;
+        while let Some(u) = q.pop_front() {
+            for &v in &adjoint_list[u] {
+                if parent[v] != n as isize {
+                    continue;
+                }
+                parent[v] = u as isize;
+                q.push_back(v);
+            }
+        }
+
+        let mut children = vec![vec![]; n];
+        for (i, &p) in parent.iter().enumerate() {
+            if p == -1 {
+                continue;
+            }
+            children[p as usize].push(i);
+        }
+
+        Tree {
+            root: root,
+            n: n,
+            e: e,
+            adjoint_list: adjoint_list,
+            parent: parent,
+            children: children,
+        }
+    }
+
+    pub fn parent(&self, u: usize) -> Option<usize> {
+        if self.parent[u] < 0 {
+            return None;
+        }
+        Some(self.parent[u] as usize)
+    }
+ 
+    pub fn distance_from_root(&self) -> Vec<usize> {
+        let mut res = vec![std::usize::MAX; self.n];
+        let mut q = std::collections::VecDeque::new();
+        q.push_back(self.root);
+        res[self.root] = 0;
+
+        while let Some(u) = q.pop_front() {
+            for &v in &self.adjoint_list[u] {
+                if res[v] == std::usize::MAX {
+                    res[v] = res[u] + 1;
+                    q.push_back(v);
+                }
+            }
+        }
+        res
+    }
+
+    pub fn diameter(&self) -> usize {
+        let mut used = vec![-1; self.n];
+        let mut q = std::collections::VecDeque::new();
+        q.push_back(0);
+        used[0] = 0;
+        let mut memo = 0;
+        while let Some(i) = q.pop_front() {
+            memo = i;
+            for &j in &self.adjoint_list[i] {
+                if used[j] >= 0 {
+                    continue;
+                }
+                used[j] = 0;
+                q.push_back(j);
+            }
+        }
+        used = vec![-1; self.n];
+        q.push_back(memo);
+        used[memo] = 0;
+        while let Some(i) = q.pop_front() {
+            for &j in &self.adjoint_list[i] {
+                if used[j] >= 0 {
+                    continue;
+                }
+                used[j] = used[i] + 1;
+                q.push_back(j);
+            }
+        }
+        *used.iter().max().unwrap() as usize
+    }
+}

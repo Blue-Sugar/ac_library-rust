@@ -1,3 +1,38 @@
+# Tree
+根を指定したtreeを構築する。
+
+### `self.root: usize`
+木の根。
+
+### `self.: usize`
+木の頂点の数。
+
+### `self.e: Vec<(usize, usize)>`
+木の辺の集合。
+
+### `self.adjoint_list: Vec<Vec<usize>>`
+木の隣接リスト。
+
+### `self.parent: Vec<isize>`
+木のそれぞれの頂点の親を表す。もし、値が`-1`であればその頂点が根であることを表す。
+
+### `self.children: Vec<Vec<usize>>`
+木のそれぞれの頂点に直接つながる子の集合。
+
+### `Tree::build(root: usize, n: usize, e: Vec<(usize, usize)>) -> Tree`
+木を構築する。$O(n + |e|)$。
+
+### `self.parent(u: usize) -> Option<usize>`
+$u$の親を返す。もし、$u$が根であれば`None`を返す。$O(1)$。
+
+### `self.distance_from_root() -> Vec<usize>`
+それぞれの頂点の根からの距離を返す。$O(n + |e|)$。
+
+### `self.diameter() -> usize`
+木の直径を求める。ここで直径とは、$\max dist(u, v)$のことである。
+
+
+
 # Segment Tree
 segment treeは`Monoid`$S$上の列$A$で、次の操作を高速にするためのtreeである。
 
