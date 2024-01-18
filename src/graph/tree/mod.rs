@@ -1,3 +1,4 @@
+mod lowest_common_ancestor;
 mod segment_tree;
 
 
@@ -7,8 +8,6 @@ struct Tree {
     n: usize,
     e: Vec<(usize, usize)>,
     pub adjoint_list: Vec<Vec<usize>>,
-    parent: Vec<isize>,
-    pub children: Vec<Vec<usize>>,
 }
 
 #[allow(unused)]
@@ -20,43 +19,40 @@ impl Tree {
             adjoint_list[v].push(u);
         }
 
-        let mut parent = vec![n as isize; n];
-        let mut q = std::collections::VecDeque::new();
-        q.push_back(root);
-        parent[root] = -1;
-        while let Some(u) = q.pop_front() {
-            for &v in &adjoint_list[u] {
-                if parent[v] != n as isize {
-                    continue;
-                }
-                parent[v] = u as isize;
-                q.push_back(v);
-            }
-        }
-
-        let mut children = vec![vec![]; n];
-        for (i, &p) in parent.iter().enumerate() {
-            if p == -1 {
-                continue;
-            }
-            children[p as usize].push(i);
-        }
-
         Tree {
             root: root,
             n: n,
             e: e,
             adjoint_list: adjoint_list,
-            parent: parent,
-            children: children,
         }
     }
 
-    pub fn parent(&self, u: usize) -> Option<usize> {
-        if self.parent[u] < 0 {
-            return None;
+    pub fn parent(&self) -> Vec<isize> {
+        let mut res = vec![self.n as isize; self.n];
+        let mut q = std::collections::VecDeque::new();
+        q.push_back(self.root);
+        res[self.root] = -1;
+        while let Some(u) = q.pop_front() {
+            for &v in &self.adjoint_list[u] {
+                if res[v] != self.n as isize {
+                    continue;
+                }
+                res[v] = u as isize;
+                q.push_back(v);
+            }
         }
-        Some(self.parent[u] as usize)
+        res
+    }
+
+    pub fn children(&self) -> Vec<Vec<usize>> {
+        let mut res = vec![vec![]; self.n];
+        for (i, &p) in self.parent().iter().enumerate() {
+            if p == -1 {
+                continue;
+            }
+            res[p as usize].push(i);
+        }
+        res
     }
  
     pub fn distance_from_root(&self) -> Vec<usize> {
