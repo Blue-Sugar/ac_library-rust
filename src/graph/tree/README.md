@@ -33,6 +33,33 @@ $u$の親を返す。もし、$u$が根であれば`None`を返す。$O(1)$。
 
 
 
+# Lowest Common Ancestor
+木の共通祖先を高速に求めれるようになるデータ構造である。
+
+### `self.tree: Tree`
+対象とする木。
+
+### `self.parent: Vec<Vec<isize>>`
+`parent[k][i]`で頂点$i$から$2^k$の距離だけ根に戻ったときの頂点を表す。もし、そのような頂点が存在しなければ`-1`を返す。
+
+### `self.dist: Vec<usize>`
+各頂点の根までの距離を表す。
+
+### `LCA::build(tree: Tree) -> Self`
+LCAを構築する。$O(n \log n)$。
+
+### `self.lowest_common_ancestor(u: usize, v: usize) -> usize`
+$u, v$の最短共通祖先を返す。$O(\log n)$。
+
+### `self.get_dist(u: usize, v: usize) -> usize`
+$u, v$の間の距離を返す。$O(\log n)$。
+
+### `self.is_on_path(a: usize, u: usize, v: usize) -> bool`
+$u, v$のパス上に$a$が存在するかどうかを返す。$O(\log n)$。
+
+
+
+
 # Segment Tree
 segment treeは`Monoid`$S$上の列$A$で、次の操作を高速にするためのtreeである。
 
