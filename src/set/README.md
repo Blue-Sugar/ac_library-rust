@@ -17,19 +17,29 @@ $S_i = \{ i \}, (\forall i = 0, \dots, n - 1)$
 となるようなDSUを返す。
 
 ### `self.root(v: usize) -> usize`
-$v$と同じ集合に属する元の中で、根であるものを返す。$O(\log n)$。
+$v$
+と同じ集合に属する元の中で、根であるものを返す。
+$O(\log n)$
 
 ### `self.is_root(v: usize) -> bool`
-$v$が根であるかどうかを返す。$O(1)$。
+$v$
+が根であるかどうかを返す。
+$O(1)$
 
 ### `self.is_same(u: usize, v: usize) -> bool`
-$u, v$が同じ集合に属しているかどうかを返す。$O(\log n)$。
+$u, v$
+が同じ集合に属しているかどうかを返す。
+$O(\log n)$
 
 ### `self.unite(u: usize, v: usize)`
-$u, v$に対して、それらが含まれる部分集合の合併を新しい部分集合族の元とする。$O(\log n)$。
+$u, v$
+に対して、それらが含まれる部分集合の合併を新しい部分集合族の元とする。
+$O(\log n)$
 
 ### `self.size(v: usize) -> usize`
-$v$の属する集合の大きさを返す。$O(\log n)$。
+$v$
+の属する集合の大きさを返す。
+$O(\log n)$
 
 
 
@@ -47,16 +57,35 @@ DSUの中でも同じ集合のなかにある任意の2つの元の間にpotenti
 `w[i] = d`であるとき、これは`p[i]`を基準とした`i`のポテンシャルが`d`であることを表す。
 
 ### `PDSU::new(n: usize) -> PDSU`
-`PDSU`を初期化する。つまり、$S = \{ 0, 1, \dots, n - 1 \}$かつ$S_i = \{ i \}, (\forall i = 0, \dots, n - 1)$となるようなPDSUを返す。$O(1)$。
+`PDSU`を初期化する。つまり、
+$S = \{ 0, 1, \dots, n - 1 \}$
+かつ
+$S_i = \{ i \}, (\forall i = 0, \dots, n - 1)$
+となるようなPDSUを返す。
+$O(1)$
 
 ### `self.root(v: usize) -> (usize, isize)`
-$v$と同じ集合に属するもので、根とその元を基準とした$v$のポテンシャルを返す。$O(\log n)$。
+$v$
+と同じ集合に属するもので、根とその元を基準とした
+$v$
+のポテンシャルを返す。
+$O(\log n)$
 
 ### `self.is_same(u: usize, v: usize) -> bool`
-$u, v$が同じ集合に属するかどうかを返す。$O(\log n)$。
+$u, v$
+が同じ集合に属するかどうかを返す。
+$O(\log n)$
 
 ### `self.unite(u: usize, v: usize, d: isize) -> bool`
-$u, v$を$v$を基準とした$u$のpotenialが$d$となるように結合する。このとき、ポテンシャルに矛盾が生じるときは結合はせずに`false`を返す。$O(\log n)$。
+$u, v$
+を
+$v$
+を基準とした
+$u$
+のpotenialが
+$d$
+となるように結合する。このとき、ポテンシャルに矛盾が生じるときは結合はせずに`false`を返す。
+$O(\log n)$
 
 ### `self.size(v: usize) -> usize`
 &v&が含まれる集合の大きさを返す。$O(\log n)$。
