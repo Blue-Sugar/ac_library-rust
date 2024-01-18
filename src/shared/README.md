@@ -57,9 +57,13 @@ $$
 $O(l + |a|)$
 
 
-# run length encoding
-ランレングス長に分解する。
+# Vector Functions
+ベクトルに関する便利な関数たち。
 
 ### `fn run_length_encoding(a: Vec<T>) -> Vec<(T, usize)>`
 `a`をランレングス分解する。
+$O(|a|)$
+
+### `fn same_pair(a: Vec<T>) -> usize`
+`a`の中で同じ要素からなるペアがいくつあるかを返す。
 $O(|a|)$
