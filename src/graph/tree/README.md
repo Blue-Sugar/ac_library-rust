@@ -33,6 +33,32 @@ $u$の親を返す。もし、$u$が根であれば`None`を返す。$O(1)$。
 
 
 
+# Binary Index Tree
+自然数の列$A$に対して、以下の操作を簡単にこなすデータ構造。
+
+1. ある元に自然数$x$を加算する。
+2. $A$の区間に対して総和を計算する。
+
+### `self.n: usize`
+列$A$の元の個数。
+
+### `self.data: Vec<usize>`
+列$A$から作られるBinary Index Treeのデータ。
+
+### `BinaryIndexTree::new(n: usize)`
+列$A = (0)_{i = 0, \cdots, n - 1}$として`Binary Index Tree`を構築する。$O(1)$。
+
+### `self.add(i: usize, x: usize)`
+列$A$に対して、$A_i$に$x$を加える。$O(\log n)$。
+
+### `BinaryIndexTree::build(a: &Vec<usize>) -> BinaryIndexTree`
+列$A$に対して、Binary Index Treeを構築する。$O(n \log n)$。
+
+### `self.sum(l: usize, r: usize) -> usize`
+$\sum_{i = l}^{r - 1} A_i$を計算する。$O(\log n)$。
+
+
+
 # Lowest Common Ancestor
 木の共通祖先を高速に求めれるようになるデータ構造である。
 
