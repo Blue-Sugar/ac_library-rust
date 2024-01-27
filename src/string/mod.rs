@@ -1,10 +1,3 @@
-#[allow(unused)]
-fn is_palindrome<T: Eq + Clone>(s: Vec<T>) -> bool {
-    let mut t = s.clone();
-    t.reverse();
-    s == t
-}
-
 const INF: usize = std::usize::MAX / 2;
 #[allow(unused)]
 fn next(s: &Vec<u8>, from: u8, to: u8) -> Vec<Vec<usize>> {
