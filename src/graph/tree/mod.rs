@@ -1,6 +1,4 @@
-mod binary_index_tree;
 mod lowest_common_ancestor;
-mod segment_tree;
 
 
 #[allow(unused)]
