@@ -4,3 +4,4 @@ pub mod potential_disjoint_set_union;
 pub mod disjoint_set_union;
 pub mod slope_trick;
 pub mod sorted_set;
+pub mod sorted_multi_set;

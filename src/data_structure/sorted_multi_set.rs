@@ -1,17 +1,16 @@
 const BUCKET_RATIO: usize = 16;
 const SPLIT_RATIO: usize = 24;
 
-#[derive(Clone)]
 #[allow(unused)]
-struct SortedSet<T: Clone + Copy + Eq + Ord> {
+struct SortedMultiSet<T: Clone + Copy + Eq + Ord> {
     size: usize,
     s: Vec<Vec<T>>,
 }
 
 #[allow(unused)]
-impl<T: Clone + Copy + Eq + Ord> SortedSet<T> {
+impl<T: Clone + Copy + Eq + Ord> SortedMultiSet<T> {
     pub fn new() -> Self {
-        SortedSet {
+        SortedMultiSet {
             size: 0,
             s: vec![vec![]],
         }
@@ -19,19 +18,17 @@ impl<T: Clone + Copy + Eq + Ord> SortedSet<T> {
 
     pub fn build(a: &Vec<T>) -> Self {
         let mut a = a.clone();
-        if a.windows(2).any(|v| v[0] >= v[1]) {
-            a.sort();
-            a.dedup();
-        }
         let size = a.len();
+        if a.windows(2).any(|v| v[0] > v[1]) {
+            a.sort();
+        }
         let bucket_size = (size as f64 / BUCKET_RATIO as f64).sqrt().ceil() as usize;
         let mut s = vec![];
         for i in 0..bucket_size {
             let t = a[size * i / bucket_size..size * (i + 1) / bucket_size].to_vec();
             s.push(t);
         }
-
-        SortedSet {
+        SortedMultiSet {
             size: size,
             s: s
         }
@@ -72,16 +69,16 @@ impl<T: Clone + Copy + Eq + Ord> SortedSet<T> {
         i != a.len() && a[i] == *x
     }
 
-    pub fn add(&mut self, x: T) -> bool {
+    pub fn count(&self, x: T) -> usize {
+        self.index_right(x) - self.index(x)
+    }
+
+    pub fn add(&mut self, x: T) {
         if self.size == 0 {
             self.s = vec![vec![x]];
             self.size = 1;
-            return true;
         }
         let (mut a, index, i) = self.position(&x);
-        if i != a.len() && a[i] == x {
-            return false;
-        }
         self.s[index].insert(i, x);
         a.insert(i, x);
         self.size += 1;
@@ -90,7 +87,6 @@ impl<T: Clone + Copy + Eq + Ord> SortedSet<T> {
             self.s[index] = a[mid..].to_vec();
             self.s.insert(index, a[..mid].to_vec());
         }
-        true
     }
 
     fn pop(&mut self, index: usize, i: usize) -> T {
