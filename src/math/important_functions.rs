@@ -61,3 +61,26 @@ fn is_square(x: usize) -> bool {
     }
     ok * ok == x
 }
+
+#[allow(unused)]
+fn prime_factorization(mut n: usize) -> Vec<(usize, usize)> {
+    let mut res = vec![];
+    for i in 2.. {
+        if i * i > n {
+            break;
+        }
+        if n % i == 0 {
+            let mut cnt = 1;
+            n = n / i;
+            while n % i == 0 {
+                cnt += 1;
+                n = n / i;
+            }
+            res.push((i, cnt));
+        }
+    }
+    if n != 1 {
+        res.push((n, 1));
+    }
+    res
+}
