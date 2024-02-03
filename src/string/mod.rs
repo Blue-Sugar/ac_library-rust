@@ -1,3 +1,6 @@
+mod rolling_hash;
+
+
 const INF: usize = std::usize::MAX / 2;
 #[allow(unused)]
 fn next(s: &Vec<u8>, from: u8, to: u8) -> Vec<Vec<usize>> {
