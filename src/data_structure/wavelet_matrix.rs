@@ -8,7 +8,7 @@ pub struct WaveletMatrix {
 
 #[allow(unused)]
 impl WaveletMatrix {
-    pub fn new(mut array: Vec<u64>, bits: usize) -> Self {
+    pub fn build(mut array: Vec<u64>, bits: usize) -> Self {
         assert!(0 < bits && bits <= 64);
         assert!(bits == 64 || array.iter().all(|p| *p < (1 << bits)));
         let size = array.len();
@@ -23,7 +23,7 @@ impl WaveletMatrix {
                 *buf = x;
                 tmp[x as usize].push(*a);
             }
-            mat.push(BitVector::new(&buf));
+            mat.push(BitVector::build(&buf));
             zeros.push(tmp[0].len());
             array.clear();
             array.extend(tmp[0].drain(..));
@@ -186,7 +186,7 @@ pub struct BitVector {
 }
 
 impl BitVector {
-    pub fn new(array: &[bool]) -> Self {
+    pub fn build(array: &[bool]) -> Self {
         let size = array.len();
         let mut buf = vec![0usize; size / WIDTH + 1];
         for (buf, a) in buf.iter_mut().zip(array.chunks(WIDTH)) {
