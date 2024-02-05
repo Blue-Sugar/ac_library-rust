@@ -6,3 +6,4 @@ pub mod slope_trick;
 pub mod sorted_set;
 pub mod sorted_multi_set;
 pub mod wavelet_matrix;
+pub mod bit_vector;
