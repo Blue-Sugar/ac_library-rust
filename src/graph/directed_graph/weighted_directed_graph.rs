@@ -1,5 +1,4 @@
 use itertools::Itertools;
-
 const INF: isize = std::isize::MAX / 2;
 
 #[derive(Clone)]
@@ -20,9 +19,31 @@ impl WeightedDirectedGraph {
     }
 
     pub fn adjoint_list(&self) -> Vec<Vec<(usize, isize)>> {
-        let mut res = vec![vec![]];
+        let mut res = vec![vec![]; self.n];
         for &(u, v, w) in &self.ew {
             res[u].push((v, w));
+        }
+        res
+    }
+
+    pub fn dijkstra(&self, u: usize) -> Vec<isize> {
+        assert!(self.ew.iter().all(|(_, _, w)| *w >= 0));
+        let al = self.adjoint_list();
+        let mut heap = std::collections::BinaryHeap::new();
+        let mut res = vec![INF; self.n];
+        heap.push((0, u));
+        res[u] = 0;
+        while let Some((d, v)) = heap.pop() {
+            let d = -d;
+            if res[v] < d {
+                continue;
+            }
+            for &(w, dd) in &al[v] {
+                if res[v] + dd < res[w] {
+                    res[w] = res[v] + dd;
+                    heap.push((-res[w], w));
+                }
+            }
         }
         res
     }
