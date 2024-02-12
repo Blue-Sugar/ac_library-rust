@@ -1,11 +1,4 @@
 #[allow(unused)]
-pub struct SegmentTreeLazy<M, A> {
-    n: usize,
-    size: usize,
-    data: Vec<(M, A)>,    
-}
-
-#[allow(unused)]
 impl<M, A> SegmentTreeLazy<M, A>
 where 
     M: Monoid,
@@ -17,6 +10,7 @@ where
             n: n,
             data: vec![(M::e(), A::e()); 2 * size],
             size: size,
+            zeros: size.trailing_zeros() as usize,
         }
     }
     
@@ -30,6 +24,7 @@ where
             n: a.len(),
             size: size,
             data: data,
+            zeros: size.trailing_zeros() as usize,
         };
         for i in (1..size).rev() {
             res.save_at(i);
@@ -55,7 +50,7 @@ where
     fn propagate(&mut self, l: usize, r: usize) {
         let l = l + self.size;
         let r = r + self.size;
-        for i in (1..=self.size.trailing_zeros() as usize).rev() {
+        for i in (1..=self.zeros as usize).rev() {
             if (l >> i) << i != l {
                 self.propagate_at(l >> i);
             }
@@ -68,7 +63,7 @@ where
     fn save(&mut self, l: usize, r: usize) {
         let l = l + self.size;
         let r = r + self.size;
-        for i in 1..=self.size.trailing_zeros() as usize {
+        for i in 1..=self.zeros {
             if (l >> i) << i != l {
                 self.save_at(l >> i);
             }
@@ -126,18 +121,18 @@ where
 
     pub fn set_at(&mut self, x: usize, v: M) {
         let y = x + self.size;
-        for i in (1..=self.size.trailing_zeros() as usize).rev() {
+        for i in (1..=self.zeros).rev() {
             self.propagate_at(y >> i);
         }
         self.data[y].0 = v;
-        for i in 1..=self.size.trailing_zeros() as usize {
+        for i in 1..=self.size.trailing_zeros() {
             self.save_at(y >> i);
         }
     }
 
     pub fn get_at(&mut self, x: usize) -> M {
         let y = x + self.size;
-        for i in (1..=self.size.trailing_zeros() as usize).rev() {
+        for i in (1..=self.zeros).rev() {
             self.propagate_at(y >> i);
         }
         self.data[y].0
