@@ -7,3 +7,4 @@ pub mod sorted_set;
 pub mod sorted_multi_set;
 pub mod wavelet_matrix;
 pub mod bit_vector;
+pub mod segment_tree_lazy;

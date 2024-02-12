@@ -1,3 +1,13 @@
+use crate::math::algebra::monoid::*;
+
+#[allow(unused)]
+pub struct SegmentTreeLazy<M, A> {
+    n: usize,
+    size: usize,
+    data: Vec<(M, A)>,
+    zeros: usize,  
+}
+
 #[allow(unused)]
 impl<M, A> SegmentTreeLazy<M, A>
 where 
@@ -15,6 +25,7 @@ where
     }
     
     pub fn build(a: &Vec<M>) -> Self {
+        let a = a.clone();
         let size = a.len().next_power_of_two();
         let mut data = vec![(M::e(), A::e()); 2 * size];
         for (data, a) in data[size..].iter_mut().zip(a.iter()) {
@@ -50,7 +61,7 @@ where
     fn propagate(&mut self, l: usize, r: usize) {
         let l = l + self.size;
         let r = r + self.size;
-        for i in (1..=self.zeros as usize).rev() {
+        for i in (1..=self.zeros).rev() {
             if (l >> i) << i != l {
                 self.propagate_at(l >> i);
             }
