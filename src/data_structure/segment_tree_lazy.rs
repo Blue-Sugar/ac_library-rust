@@ -148,4 +148,14 @@ where
         }
         self.data[y].0
     }
+
+    pub fn get_all(&mut self) -> Vec<M> {
+        for i in 0..self.size {
+            self.propagate_at(i);
+        }
+        for i in (0..self.size).rev() {
+            self.save_at(i);
+        }
+        self.data[self.size..self.size + self.n].iter().map(|(m, a)| *m).collect::<Vec<M>>()
+    }
 }
