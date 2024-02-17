@@ -17,25 +17,22 @@ fn is_coprime(a: usize, b: usize) -> bool {
 }
 
 #[allow(unused)]
-fn ex_euclid(mut a: usize, mut b: usize) -> (isize, isize) {
-    let mut log = vec![];
-    while b > 0 {
-        log.push((a, b));
-        (a, b) = (b, a % b);
+fn ex_euclid(x: isize, y: isize) -> (isize, isize) {
+    if y == 0 {
+        return (x.signum(), 0);
     }
-    let (mut x, mut y) = (1, 0);
-    for &(a, b) in log.iter().rev() {
-        (x, y) = (y, x - a as isize / b as isize * y);
-    }
-    (x, y)
+    let q = x.div_euclid(y);
+    let r = x.rem_euclid(y);
+    let p = ex_euclid(y, r);
+    (p.1, p.0 - q * p.1)
 }
 
 #[allow(unused)]
 fn chinese_remainder_theorem(
     a0: usize,
-    m0: usize,
+    m0: isize,
     a1: usize,
-    m1: usize,
+    m1: isize,
 ) -> usize {
     let (x0, x1) = ex_euclid(m0, m1);
     let x = a0 as isize * m1 as isize * x1 
