@@ -1,19 +1,29 @@
 #[allow(unused)]
-fn lower_bound<P>(l: i128, ng: i128, f: P) -> i128  
+fn lower_bound<P>(mut ok: i128, mut ng: i128, f: P) -> i128  
 where P: Fn(&i128) -> bool,
 { 
-    if !f(&l) {return l;}
-    let mut ok = l;
-    let mut ng = ng;
-    while ng - ok > 1 {
-        let mid = (ok + ng) / 2;
-        if f(&mid) {
-            ok = mid;
-        } else {
-            ng = mid;
+    assert!(f(&ok));
+    assert!(!f(&ng));
+    if ok > ng {
+        while ok - ng > 1 {
+            let mid = (ok + ng) >> 1;
+            if f(&mid) {
+                ok = mid;
+            } else {
+                ng = mid;
+            }
+        }
+    } else {
+        while ng - ok > 1 {
+            let mid = (ok + ng) >> 1;
+            if f(&mid) {
+                ok = mid;
+            } else {
+                ng = mid;
+            }
         }
     }
-    ng
+    ok
 }
 
 #[allow(unused)]
