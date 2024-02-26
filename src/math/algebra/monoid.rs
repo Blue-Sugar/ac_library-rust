@@ -19,6 +19,7 @@ impl Monoid for (isize, isize) {
         (self.0 + rhs.0, self.1 + rhs.1)
     }
 }
+
 #[derive(Clone, Copy)]
 #[allow(unused)]
 enum Action {

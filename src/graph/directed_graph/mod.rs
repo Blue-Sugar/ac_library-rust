@@ -1,4 +1,5 @@
 mod weighted_directed_graph;
+mod directed_acyclic_graph;
 
 #[allow(unused)]
 struct DirectedGraph {
